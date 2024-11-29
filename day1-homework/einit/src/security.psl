@@ -1,0 +1,20 @@
+/* Description of a solution security policy. */
+
+/* Assign the execute interface. */
+execute: kl.core.Execute
+
+/* Include the base.psl file containing a formal description of the Base security model. */
+use nk.base._
+
+/* Include EDL files. */
+use EDL Einit
+use EDL kl.core.Core
+
+use EDL highlevel.Network
+use EDL highlevel.Checker
+use EDL highlevel.Keys
+
+/* Security policy in this example allows any interaction between processes and the KasperskyOS kernel. */
+/* It is used to simplify the example and it must not be used in real applications. */
+use nonsecurity._
+

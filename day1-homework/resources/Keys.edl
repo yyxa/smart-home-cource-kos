@@ -1,0 +1,5 @@
+entity highlevel.Keys
+
+components {
+    server : highlevel.ServerKeys
+}
