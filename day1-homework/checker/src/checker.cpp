@@ -2,8 +2,10 @@
 
 #include <kosipc/make_application.h>
 #include <kosipc/serve_static_channel.h>
+#include <kosipc/connect_static_channel.h>
 
 #include <highlevel/Checker.edl.cpp.h>
+#include <highlevel/ServiceKeys.idl.cpp.h>
 
 using namespace kosipc::stdcpp;
 using namespace highlevel;
@@ -17,8 +19,20 @@ public:
     void On(uint8_t &result)
     {   
         std::cerr << "Checker: On()" << std::endl;
-        status_code = 1;
-	      result = status_code;
+
+        kosipc::Application app = kosipc::MakeApplicationAutodetect();
+        auto proxy = app.MakeProxy<ServiceKeys>(kosipc::ConnectStaticChannel("keys_connection", "server.service"));
+
+        uint8_t res;
+        proxy->Status(res);
+
+        if(res == 1) {
+          status_code = 1;
+	        result = status_code;
+        }
+        else {
+          result = status_code;
+        }
     }
 
     void Off(uint8_t &result)

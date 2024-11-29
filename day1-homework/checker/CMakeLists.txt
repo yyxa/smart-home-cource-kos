@@ -20,6 +20,10 @@ add_nk_edl (Checker_edl  "${RESOURCES}/Checker.edl"
 add_dependencies (Checker_edl server_cdl)
 bind_nk_targets (Checker_edl server_cdl)
 
+add_nk_idl (service_client_keys_idl "${RESOURCES}/ServiceKeys.idl"
+            NK_MODULE          "highlevel"
+            LANG               "CXX")
+
 add_executable (Checker "src/checker.cpp")
-add_dependencies (Checker Checker_edl)
-bind_nk_targets (Checker Checker_edl server_cdl)
+add_dependencies (Checker Checker_edl service_client_keys_idl)
+bind_nk_targets (Checker Checker_edl server_cdl service_client_keys_idl)

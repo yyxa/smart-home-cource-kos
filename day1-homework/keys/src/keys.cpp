@@ -8,19 +8,20 @@
 using namespace kosipc::stdcpp;
 using namespace highlevel;
 
-uint8_t status_code = 0;
+uint8_t status_code = 1;
 
 class MyServiceKeys : public ServiceKeys
 {
 public:
     void Status(uint8_t &result)
     {   
+        std::cerr << "Keys: Status() = " << static_cast<int>(status_code) << std::endl;
 	      result = status_code;
     }
 };
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] const char *argv[])
-{
+{       
     kosipc::Application app = kosipc::MakeApplicationAutodetect();
 
     MyServiceKeys service;

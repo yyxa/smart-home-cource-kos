@@ -17,8 +17,8 @@ add_nk_edl (Keys_edl  "${RESOURCES}/Keys.edl"
 	    NK_MODULE "highlevel"
 	    LANG      "CXX")
 
-add_dependencies (Keys_edl server_keys_cdl)
-bind_nk_targets (Keys_edl server_keys_cdl)
+add_dependencies (Keys_edl server_keys_cdl service_keys_idl)
+bind_nk_targets (Keys_edl server_keys_cdl service_keys_idl)
 
 add_executable (Keys "src/keys.cpp")
 add_dependencies (Keys Keys_edl)
