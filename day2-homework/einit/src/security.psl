@@ -1,0 +1,174 @@
+/* Description of a solution security policy. */
+
+/* Assign the execute interface. */
+execute: kl.core.Execute
+
+/* Include the base.psl file containing a formal description of the Base security model. */
+use nk.base._
+
+/* Include EDL files. */
+use EDL Einit
+use EDL kl.core.Core
+
+use EDL highlevel.Network
+use EDL highlevel.Checker
+use EDL highlevel.Keys
+use EDL highlevel.KlogEntity
+use EDL highlevel.KlogStorageEntity
+
+/* Security policy in this example allows any interaction between processes and the KasperskyOS kernel. */
+/* It is used to simplify the example and it must not be used in real applications. */
+/* use nonsecurity._  */
+
+error
+{
+    grant()
+}
+execute
+{
+    grant()
+}
+response
+{
+    grant()
+}
+request src=Einit dst=kl.core.Core {
+    grant()
+}
+request src=highlevel.Network dst=kl.core.Core {
+    grant()
+}
+request src=highlevel.Checker dst=kl.core.Core {
+    grant()
+}
+request src=highlevel.Keys dst=kl.core.Core {
+    grant()
+}
+request src=highlevel.KlogEntity dst=highlevel.KlogStorageEntity {
+    grant()
+}
+request src=highlevel.KlogEntity dst=kl.core.Core {
+    grant()
+}
+request src=highlevel.KlogStorageEntity dst=highlevel.KlogEntity {
+    grant()
+}
+request src=highlevel.KlogStorageEntity dst=kl.core.Core {
+    grant()
+}
+request src=kl.core.Core dst=Einit {
+    grant()
+}
+request src=kl.core.Core dst=highlevel.Network {
+    grant()
+}
+request src=kl.core.Core dst=highlevel.Checker {
+    grant()
+}
+request src=kl.core.Core dst=highlevel.Keys {
+    grant()
+}
+request src=kl.core.Core dst=highlevel.KlogEntity {
+    grant()
+}
+request src=kl.core.Core dst=highlevel.KlogStorageEntity {
+    grant()
+}
+
+/* dst Checker */
+
+request 
+    src=highlevel.Network 
+    dst=highlevel.Checker 
+    interface=highlevel.ServiceChecker 
+    component=highlevel.ServerChecker 
+    endpoint=server.service {
+        match method=On { grant() }
+        match method=Off { grant() }
+        match method=Temperature { grant() }
+}
+
+response 
+    src=highlevel.Network 
+    dst=highlevel.Checker 
+    interface=highlevel.ServiceChecker 
+    component=highlevel.ServerChecker 
+    endpoint=server.service {
+        grant()
+}
+
+/* assert (message.temperature > 19) */
+
+
+/* dst Keys */
+
+request 
+    src=highlevel.Checker 
+    dst=highlevel.Keys 
+    interface=highlevel.ServiceKeys 
+    component=highlevel.ServerKeys 
+    endpoint=server.service {
+        match method=Status { grant() }
+}
+
+response 
+    src=highlevel.Checker 
+    dst=highlevel.Keys 
+    interface=highlevel.ServiceKeys 
+    component=highlevel.ServerKeys 
+    endpoint=server.service {
+        grant()
+}
+
+assert "calls check" {
+    setup {
+        core <- execute dst=kl.core.Core
+        einit <- execute src=core dst=Einit
+        a <- execute src=einit dst=highlevel.Network
+        b <- execute src=einit dst=highlevel.Checker
+        c <- execute src=einit dst=highlevel.Keys
+    }
+    sequence "first test" {
+        a ~> b:server.service.On {}
+        b ~> c:server.service.Status {}
+        a ~> b:server.service.Temperature {}
+        a ~> b:server.service.Temperature {}
+        a ~> b:server.service.Off {}
+    }
+}
+
+assert "wrong calls check" {
+    setup {
+        core <- execute dst=kl.core.Core
+        einit <- execute src=core dst=Einit
+        a <- execute src=einit dst=highlevel.Network
+        b <- execute src=einit dst=highlevel.Checker
+        c <- execute src=einit dst=highlevel.Keys
+    }
+    sequence "first test" {
+        deny a ~> c:server.service.Status {}
+        deny c ~> b:server.service.Temperature {}
+        deny c ~> b:server.service.Temperature {}
+        deny c ~> b:server.service.Off {}
+    }
+}
+
+/* We declare the profile for audit. */
+audit profile trace = {
+    /* Complete silence. */
+    0: {},
+    /* Only denied by kss. */
+    1: {
+        base: { kss: [ "granted" ] },
+    },
+    /* Only denied from everyone. */
+    2: {
+        base: { kss: [ "denied" ] },
+    },
+    /* All listening. */
+    3: {
+        base: { kss: [ "granted", "denied" ] },
+    }
+}
+/* We assign the level of the audit profile used by default. */
+audit default = trace 3

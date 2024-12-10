@@ -1,0 +1,5 @@
+component highlevel.ServerChecker
+
+endpoints {
+    service : highlevel.ServiceChecker
+}

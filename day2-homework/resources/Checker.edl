@@ -1,0 +1,5 @@
+entity highlevel.Checker
+
+components {
+    server : highlevel.ServerChecker
+}
