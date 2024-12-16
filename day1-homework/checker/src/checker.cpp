@@ -6,11 +6,11 @@
 
 #include <highlevel/Checker.edl.cpp.h>
 #include <highlevel/ServiceKeys.idl.cpp.h>
+#include <highlevel/ServiceKettle.idl.cpp.h>
 
 using namespace kosipc::stdcpp;
 using namespace highlevel;
 
-uint8_t status_code = 0;
 uint8_t current_temperature = 20;
 
 class MyServiceChecker : public ServiceChecker
@@ -27,29 +27,43 @@ public:
         proxy->Status(res);
 
         if(res == 1) {
-          status_code = 1;
-	        result = status_code;
+          kosipc::Application app1 = kosipc::MakeApplicationAutodetect();
+          auto proxy1 = app1.MakeProxy<ServiceKettle>(kosipc::ConnectStaticChannel("kettle_connection", "server.service"));
+          uint8_t res1;
+          proxy1->On(res1);
+	        result = res1;
         }
         else {
-          result = status_code;
+          result = 100;
         }
     }
 
     void Off(uint8_t &result)
     {
         std::cerr << "Checker: Off()" << std::endl;
-        status_code = 0;
-	      result = status_code;
+
+        kosipc::Application app1 = kosipc::MakeApplicationAutodetect();
+        auto proxy1 = app1.MakeProxy<ServiceKettle>(kosipc::ConnectStaticChannel("kettle_connection", "server.service"));
+        uint8_t res;
+        proxy1->Off(res);
+	      result = res;
     }
 
     void Temperature(uint8_t &temperature)
     {
-	      current_temperature++;
+        kosipc::Application app1 = kosipc::MakeApplicationAutodetect();
+        auto proxy1 = app1.MakeProxy<ServiceKettle>(kosipc::ConnectStaticChannel("kettle_connection", "server.service"));
+	      uint8_t res;
+        proxy1->Temperature(res);
+        current_temperature = res;
         temperature = current_temperature;
         std::cerr << "Checker: Get_temperature() = " << static_cast<int>(current_temperature) << std::endl;
 
-        current_temperature == 100 ? current_temperature = 20 : 0;
     }
+private:
+    
+
+    
 };
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] const char *argv[])

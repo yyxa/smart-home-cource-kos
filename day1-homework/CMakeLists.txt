@@ -8,6 +8,7 @@ set( CMAKE_VERBOSE_MAKEFILE on )
 
 # Initialize the CMake library for the KasperskyOS SDK.
 include (platform)
+
 # Statically link executable files.
 initialize_platform (FORCE_STATIC)
 
@@ -28,6 +29,7 @@ include_directories (${CMAKE_CURRENT_BINARY_DIR})
 # Include the example directory.
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
+add_subdirectory (kettle)
 add_subdirectory (keys)
 add_subdirectory (checker)
 add_subdirectory (network)

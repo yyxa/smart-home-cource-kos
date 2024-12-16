@@ -6,7 +6,7 @@ include (${KL_SDK_ROOT_PATH}/common/build-sd-image.cmake)
 
 # Define the ENTITIES variable with a list of programs.
 # set (ENTITIES Network Checker)
-set (ENTITIES Network Checker Keys)
+set (ENTITIES Network Checker Keys Kettle)
 
 set (SECURITY_PSL_FILE    "src/security.psl")
 set (CONNECTIONS_CFG_FILE "src/init.yaml.in")
