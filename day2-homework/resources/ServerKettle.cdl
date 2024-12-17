@@ -1,0 +1,5 @@
+component highlevel.ServerKettle
+
+endpoints {
+    service : highlevel.ServiceKettle
+}

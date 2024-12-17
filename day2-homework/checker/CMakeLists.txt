@@ -24,6 +24,10 @@ add_nk_idl (service_client_keys_idl "${RESOURCES}/ServiceKeys.idl"
             NK_MODULE          "highlevel"
             LANG               "CXX")
 
+add_nk_idl (service_client_kettle_idl "${RESOURCES}/ServiceKettle.idl"
+            NK_MODULE          "highlevel"
+            LANG               "CXX")
+
 add_executable (Checker "src/checker.cpp")
-add_dependencies (Checker Checker_edl service_client_keys_idl)
-bind_nk_targets (Checker Checker_edl server_cdl service_client_keys_idl)
+add_dependencies (Checker Checker_edl service_client_keys_idl service_client_kettle_idl)
+bind_nk_targets (Checker Checker_edl server_cdl service_client_keys_idl service_client_kettle_idl)

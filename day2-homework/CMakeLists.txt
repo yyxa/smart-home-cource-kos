@@ -38,6 +38,7 @@ include_directories (${CMAKE_CURRENT_BINARY_DIR})
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory (klog_storage)
+add_subdirectory (kettle)
 add_subdirectory (keys)
 add_subdirectory (network)
 add_subdirectory (checker)

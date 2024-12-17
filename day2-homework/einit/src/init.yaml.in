@@ -1,22 +1,24 @@
 entities:
 
-# The Client program can call the Server program.
 - name: highlevel.Network
   connections:
   - target: highlevel.Checker
     id: checker_connection
 @INIT_network_ENTITY_CONNECTIONS@
 
-
-# The Server program can only respond to requests.
 - name: highlevel.Checker
   connections:
   - target: highlevel.Keys
     id: keys_connection
+  - target: highlevel.Kettle
+    id: kettle_connection
 @INIT_checker_ENTITY_CONNECTIONS@
 
 - name: highlevel.Keys
 @INIT_keys_ENTITY_CONNECTIONS@
+
+- name: highlevel.Kettle
+@INIT_kettle_ENTITY_CONNECTIONS@
 
 - name: highlevel.KlogEntity
   path: @INIT_KlogEntity_PATH@

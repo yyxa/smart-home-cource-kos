@@ -23,7 +23,7 @@ add_dependencies (KlogEntityQemu klog_edl_files)
 
 # Define the ENTITIES variable with a list of programs.
 # set (ENTITIES Network Checker)
-set (ENTITIES Network Checker Keys KlogStorageEntity)
+set (ENTITIES Network Checker Keys Kettle KlogStorageEntity)
 
 set (SECURITY_PSL_FILE    "src/security.psl")
 set (CONNECTIONS_CFG_FILE "src/init.yaml.in")

@@ -13,6 +13,7 @@ use EDL kl.core.Core
 use EDL highlevel.Network
 use EDL highlevel.Checker
 use EDL highlevel.Keys
+use EDL highlevel.Kettle
 use EDL highlevel.KlogEntity
 use EDL highlevel.KlogStorageEntity
 
@@ -44,6 +45,9 @@ request src=highlevel.Checker dst=kl.core.Core {
 request src=highlevel.Keys dst=kl.core.Core {
     grant()
 }
+request src=highlevel.Kettle dst=kl.core.Core {
+    grant()
+}
 request src=highlevel.KlogEntity dst=highlevel.KlogStorageEntity {
     grant()
 }
@@ -66,6 +70,9 @@ request src=kl.core.Core dst=highlevel.Checker {
     grant()
 }
 request src=kl.core.Core dst=highlevel.Keys {
+    grant()
+}
+request src=kl.core.Core dst=highlevel.Kettle {
     grant()
 }
 request src=kl.core.Core dst=highlevel.KlogEntity {
@@ -93,6 +100,28 @@ response
     dst=highlevel.Checker 
     interface=highlevel.ServiceChecker 
     component=highlevel.ServerChecker 
+    endpoint=server.service {
+        grant()
+}
+
+/* dst Kettle */
+
+request 
+    src=highlevel.Checker 
+    dst=highlevel.Kettle 
+    interface=highlevel.ServiceKettle 
+    component=highlevel.ServerKettle 
+    endpoint=server.service {
+        match method=On { grant() }
+        match method=Off { grant() }
+        match method=Temperature { grant() }
+}
+
+response 
+    src=highlevel.Checker 
+    dst=highlevel.Kettle 
+    interface=highlevel.ServiceKettle 
+    component=highlevel.ServerKettle 
     endpoint=server.service {
         grant()
 }
