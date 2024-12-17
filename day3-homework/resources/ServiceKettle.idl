@@ -1,0 +1,7 @@
+package highlevel.ServiceKettle
+
+interface {
+    On(out UInt8 result);
+    Off(out UInt8 result);
+    Temperature(out UInt8 temperature);
+}

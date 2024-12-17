@@ -1,0 +1,5 @@
+entity highlevel.Kettle
+
+components {
+    server : highlevel.ServerKettle
+}

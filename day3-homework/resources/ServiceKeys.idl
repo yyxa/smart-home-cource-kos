@@ -1,0 +1,5 @@
+package highlevel.ServiceKeys
+
+interface {
+    Status(out UInt8 result);
+}

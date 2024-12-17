@@ -1,0 +1,5 @@
+entities:
+
+- name: highlevel.TestEntity
+
+@INIT_EXTERNAL_ENTITIES@

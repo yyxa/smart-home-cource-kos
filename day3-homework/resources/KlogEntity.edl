@@ -1,0 +1,5 @@
+entity highlevel.KlogEntity
+components
+{
+    klog : kl.Klog
+}

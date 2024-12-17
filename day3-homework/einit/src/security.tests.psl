@@ -1,0 +1,10 @@
+execute: kl.core.Execute
+
+use nk.base._
+
+use EDL Einit
+use EDL kl.core.Core
+use EDL highlevel.TestEntity
+
+/* Security policy for tests allow any interprocess interaction. */
+use nonsecurity._
