@@ -4,7 +4,7 @@ project (highlevel)
 
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
-set( CMAKE_VERBOSE_MAKEFILE off )
+set( CMAKE_VERBOSE_MAKEFILE on )
 
 # Initialize the CMake library for the KasperskyOS SDK.
 include (platform)
